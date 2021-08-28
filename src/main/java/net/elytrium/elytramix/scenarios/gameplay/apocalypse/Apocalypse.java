@@ -16,7 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Random;
 
 public class Apocalypse extends Scenario {
-    private final Configuration<Integer> period = new Configuration<>("period", 10, "WATCH", this, "Время в тиках между", "спауном метеоров");
+    private final Configuration<Integer> period = new Configuration<>("period","WATCH", this, "Время в тиках между", "спауном метеоров");
     private BukkitRunnable task;
 
     public Apocalypse() {

@@ -19,14 +19,15 @@ public class RandomTeam extends Scenario {
         addConfig(team_prefix);
     }
 
-    private final Configuration<Integer> player_limit = new Configuration<>("player_limit", 24, "SKULL_ITEM", this, "Игроков в одной команде");
-    private final Configuration<String> team_prefix = new Configuration<>("team_prefix", "rt", "COMMAND", this, "Префикс в команде Minecraft");
+    private final Configuration<Integer> player_limit = new Configuration<>("player_limit", "SKULL_ITEM", this, "Игроков в одной команде");
+    private final Configuration<String> team_prefix = new Configuration<>("team_prefix", "COMMAND", this, "Префикс в команде Minecraft");
+
+    Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
 
     public void start(Player player) {
         List<List<String>> teams = getTeams(new ArrayList<>(Bukkit.getOnlinePlayers()), getPlayerLimit());
 
         for (int i = 0; i < teams.size(); i++) {
-            Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
             Team team = scoreboard.getTeam(getTeamPrefix() + i);
 
             if (team == null) {
@@ -42,7 +43,8 @@ public class RandomTeam extends Scenario {
     }
 
     public void stop() {
-
+        scoreboard.getTeams().stream().filter(team -> team.getName().contains(getTeamPrefix()))
+                .forEach(team -> team.getEntries().forEach(team::removeEntry));
     }
 
     public int getPlayerLimit() {

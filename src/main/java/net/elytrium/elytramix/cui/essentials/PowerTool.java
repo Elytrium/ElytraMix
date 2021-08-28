@@ -29,20 +29,20 @@ public class PowerTool implements CommandExecutor {
         String toolCommand = String.join(" ", strings);
 
         if(strings.length == 0){
-            Plugin.getInstance().getPowertoolConfig().set(uuid+"."+itemID, null);
+            Plugin.getInstance().getPlayerConfig().set(uuid+".powertools."+itemID, null);
             savePowertool();
             commandSender.sendMessage(Plugin.getInstance().getMessageString("elytramix.powertool-clean")
                     .replace("{item}", itemID));
             return true;
         }
 
-        if(!Plugin.getInstance().getPowertoolConfig().contains(uuid)){
+        if(!Plugin.getInstance().getPlayerConfig().contains(uuid)){
             createColumn(toolCommand, itemStack, player);
-        } else if(!Plugin.getInstance().getPowertoolConfig().contains(uuid+"."+itemID)){
-            Plugin.getInstance().getPowertoolConfig().set(uuid+"."+itemID, toolCommand);
+        } else if(!Plugin.getInstance().getPlayerConfig().contains(uuid+".powertools."+itemID)){
+            Plugin.getInstance().getPlayerConfig().set(uuid+".powertools."+itemID, toolCommand);
             savePowertool();
-        } else if(Plugin.getInstance().getPowertoolConfig().contains(uuid+"."+itemID)){
-            Plugin.getInstance().getPowertoolConfig().set(uuid+"."+itemID, toolCommand);
+        } else if(Plugin.getInstance().getPlayerConfig().contains(uuid+".powertools."+itemID)){
+            Plugin.getInstance().getPlayerConfig().set(uuid+".powertools."+itemID, toolCommand);
             savePowertool();
         }
 
@@ -56,13 +56,13 @@ public class PowerTool implements CommandExecutor {
         HashMap<String, String> tool = new HashMap<>();
         tool.put(itemStack.getType().name(), toolCommand);
 
-        Plugin.getInstance().getPowertoolConfig().set(player.getUniqueId().toString(), tool);
+        Plugin.getInstance().getPlayerConfig().set(player.getUniqueId().toString()+".powertools.", tool);
         savePowertool();
     }
 
     private void savePowertool(){
         try {
-            Plugin.getInstance().getPowertoolConfig().save(Plugin.getInstance().powertoolFile);
+            Plugin.getInstance().getPlayerConfig().save(Plugin.getInstance().dataFile);
             Plugin.getInstance().createConfigs(); //Reloading config
         } catch (IOException e) {
             e.printStackTrace();

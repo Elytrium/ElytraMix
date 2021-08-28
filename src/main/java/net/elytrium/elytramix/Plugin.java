@@ -3,18 +3,19 @@ package net.elytrium.elytramix;
 import net.elytrium.elytramix.cui.ConfigurationTabCompleter;
 import net.elytrium.elytramix.cui.ScenarioMixCommand;
 import net.elytrium.elytramix.cui.essentials.*;
-import net.elytrium.elytramix.events.PowerToolUse;
+import net.elytrium.elytramix.events.essentials.PositionListener;
+import net.elytrium.elytramix.events.essentials.PowerToolUse;
 import net.elytrium.elytramix.scenarios.ScenarioCategory;
 import net.elytrium.elytramix.scenarios.ScenarioManager;
 import net.elytrium.elytramix.scenarios.commands.build.Build;
 import net.elytrium.elytramix.scenarios.commands.clearWhitelist.ClearWhitelist;
 import net.elytrium.elytramix.scenarios.commands.collision.Collision;
+import net.elytrium.elytramix.scenarios.commands.fallDamage.FallDamage;
 import net.elytrium.elytramix.scenarios.commands.nametagVisibility.NametagVisibility;
 import net.elytrium.elytramix.scenarios.commands.pvp.Pvp;
 import net.elytrium.elytramix.scenarios.commands.use.Use;
 import net.elytrium.elytramix.scenarios.commands.whitelist.Whitelist;
 import net.elytrium.elytramix.scenarios.gameplay.apocalypse.Apocalypse;
-import net.elytrium.elytramix.scenarios.gameplay.blockshuffle.BlockShuffle;
 import net.elytrium.elytramix.scenarios.gameplay.collideath.Collideath;
 import net.elytrium.elytramix.scenarios.gameplay.lastsight.LastSight;
 import net.elytrium.elytramix.scenarios.gameplay.lowestkiller.LowestKiller;
@@ -48,11 +49,17 @@ public class Plugin extends JavaPlugin {
     private static Plugin instance;
     private static final String command = "mix";
 
-    public File powertoolFile;
-    private FileConfiguration powertoolData;
+    public File dataFile;
+    private FileConfiguration playerData;
 
     private File messagesFile;
     private FileConfiguration messagesData;
+
+    public File spawnFile;
+    private FileConfiguration spawnData;
+
+    public File scenarioFile;
+    private FileConfiguration scenarioData;
 
     @Override
     public void onEnable() {
@@ -63,6 +70,7 @@ public class Plugin extends JavaPlugin {
 
         // Creating configuration files
         createConfigs();
+        checkConfigurationVersion();
 
         // Essentials commands
         this.getCommand("bc").setExecutor(new Broadcast());
@@ -78,8 +86,13 @@ public class Plugin extends JavaPlugin {
         this.getCommand("powertool").setExecutor(new PowerTool());
         this.getCommand("tpall").setExecutor(new TeleportAll());
         this.getCommand("tphere").setExecutor(new TeleportHere());
+        this.getCommand("spawn").setExecutor(new Spawn());
+        this.getCommand("setspawn").setExecutor(new Spawn());
+        this.getCommand("speed").setExecutor(new Speed());
+        this.getCommand("back").setExecutor(new Back());
 
-        Bukkit.getPluginManager().registerEvents(new PowerToolUse(this), this);
+        Bukkit.getPluginManager().registerEvents(new PowerToolUse(), this);
+        Bukkit.getPluginManager().registerEvents(new PositionListener(), this);
     }
 
     @Override
@@ -116,7 +129,6 @@ public class Plugin extends JavaPlugin {
         CATEGORY_GAMEPLAY.addScenario(new RandomGive());
         CATEGORY_GAMEPLAY.addScenario(new ThrowTNT());
         CATEGORY_GAMEPLAY.addScenario(new PlayerSwap());
-        CATEGORY_GAMEPLAY.addScenario(new BlockShuffle());
 
         CATEGORY_COMMANDS.addScenario(new Build());
         CATEGORY_COMMANDS.addScenario(new Pvp());
@@ -125,6 +137,7 @@ public class Plugin extends JavaPlugin {
         CATEGORY_COMMANDS.addScenario(new NametagVisibility());
         CATEGORY_COMMANDS.addScenario(new Collision());
         CATEGORY_COMMANDS.addScenario(new ClearWhitelist());
+        CATEGORY_COMMANDS.addScenario(new FallDamage());
 
         ScenarioManager scenarioManager = ScenarioManager.getInstance();
         scenarioManager.addCategory(CATEGORY_GAMEPLAY);
@@ -133,37 +146,91 @@ public class Plugin extends JavaPlugin {
     }
 
     public void createConfigs() {
-        powertoolFile = new File(this.getDataFolder(), "powertool.yml");
+        dataFile = new File(this.getDataFolder(), "player-data.yml");
         messagesFile = new File(this.getDataFolder(), "messages.yml");
+        spawnFile = new File(this.getDataFolder(), "spawn.yml");
+        scenarioFile = new File(this.getDataFolder(), "scenario-data.yml");
 
-        if (!powertoolFile.exists()) {
-            powertoolFile.getParentFile().mkdirs();
-            this.saveResource("powertool.yml", false);
+        if (!dataFile.exists()) {
+            dataFile.getParentFile().mkdirs();
+            this.saveResource("player-data.yml", false);
+        }
+
+        if(!spawnFile.exists()){
+            spawnFile.getParentFile().mkdirs();
+            this.saveResource("spawn.yml", false);
         }
 
         if(!messagesFile.exists()){
-            powertoolFile.getParentFile().mkdirs();
+            dataFile.getParentFile().mkdirs();
             this.saveResource("messages.yml", false);
         }
 
-        powertoolData = new YamlConfiguration();
+        if(!scenarioFile.exists()){
+            dataFile.getParentFile().mkdirs();
+            this.saveResource("scenario-data.yml", false);
+        }
+
+        playerData = new YamlConfiguration();
         messagesData = new YamlConfiguration();
+        spawnData = new YamlConfiguration();
+        scenarioData = new YamlConfiguration();
 
         try {
-            powertoolData.load(powertoolFile);
+            playerData.load(dataFile);
             messagesData.load(messagesFile);
+            spawnData.load(spawnFile);
+            scenarioData.load(scenarioFile);
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
     }
 
-    public FileConfiguration getPowertoolConfig() {
-        return this.powertoolData;
+    private void checkConfigurationVersion(){
+        try{
+            if(!messagesData.getString("config-version").equals(this.getDescription().getVersion())){
+                messagesFile.getParentFile().mkdirs();
+                this.saveResource("messages.yml", true);
+                
+                getLogger().warning("Legacy messages config detected! Messages config reset.");
+            }
+        } catch (NullPointerException e){
+            messagesFile.getParentFile().mkdirs();
+            this.saveResource("messages.yml", true);
+            
+            getLogger().warning("Legacy messages config detected! Messages config reset.");
+        }
+
+        try{
+            if(!scenarioData.getString("config-version").equals(this.getDescription().getVersion())){
+                scenarioFile.getParentFile().mkdirs();
+                this.saveResource("scenario-data.yml", true);
+
+                getLogger().warning("Legacy scenario config detected! Scenarios settings reset.");
+            }
+        } catch (NullPointerException e){
+            scenarioFile.getParentFile().mkdirs();
+            this.saveResource("scenario-data.yml", true);
+
+            getLogger().warning("Legacy scenario config detected! Scenarios settings reset.");
+        }
+        
+        getLogger().info("Config files check complete.");
+    }
+
+    public FileConfiguration getPlayerConfig() {
+        return this.playerData;
     }
 
     public FileConfiguration getMessagesConfig() {
         return this.messagesData;
     }
+
+    public FileConfiguration getSpawnConfig(){
+        return this.spawnData;
+    }
+    
+    public  FileConfiguration getScenarioConfig() { return this.scenarioData; }
 
     public String getMessageString(String path) {
         String s = this.getMessagesConfig().getString("prefix") + this.getMessagesConfig().getString(path);

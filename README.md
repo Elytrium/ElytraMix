@@ -1,15 +1,15 @@
-# ScenarioMix
+# ElytraMix
 
 [![Build](https://github.com/Elytrium/ElytraMix/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/Elytrium/ElytraMix/actions/workflows/maven.yml)
 ![Issuses](https://img.shields.io/github/issues/Elytrium/ElytraMix)
 ![Stars](https://img.shields.io/github/stars/Elytrium/ElytraMix)
 
-Версия: 1.2.1<br>
+Версия: 1.2.2<br>
 Spigot-плагин на сценарии для ивентов (fork плагина от 7isenko)<br>
-Нативная версия: 1.16.4<br>
+Нативная версия: 1.16.4+<br>
 Для работы ElytraMix требуется наличие плагинов **WorldGuard** и **WorldEdit**!<br>
 **Версия 1.12.2 ныне не поддерживается!**<br>
-[Скачать](https://github.com/Elytrium/ElytraMix/releases/latest)
+[[Скачать]](https://github.com/Elytrium/ElytraMix/releases/latest)
 
 ## Использование
 
@@ -58,6 +58,7 @@ Spigot-плагин на сценарии для ивентов (fork плаги
 - **Флаг Build** - /region flag
 - **Флаг PvP** - /region flag
 - **Флаг Use**  - /region flag
+- **Флаг Fall-Damage**  - /region flag
 
 ### Команды Essentials
 > *Набор популярных команд из плагина Essentials*
@@ -74,6 +75,9 @@ Spigot-плагин на сценарии для ивентов (fork плаги
 - **Rain** - Устанавливает дождливую погоду
 - **TpAll** - Телепортирует всех игроков к вам
 - **TpHere** - Телепортирует игрока к вам
+- **Speed** - Изменяет скорость полёта/хотьбы
+- **Back** - Возвращает на предыдущую позицию пере смертью или телепортацией
+- **Spawn** - Телепортирует вас на спавн
 
 #### Лицензия
 [AGPL-3.0](https://github.com/Elytrium/ElytraMix/blob/master/LICENSE)

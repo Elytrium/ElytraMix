@@ -1,22 +1,22 @@
 package net.elytrium.elytramix.scenarios.config;
 
+import net.elytrium.elytramix.Plugin;
 import net.elytrium.elytramix.scenarios.Scenario;
 import net.elytrium.elytramix.utils.ItemUtils;
 import net.elytrium.elytramix.utils.Parser;
 import org.bukkit.Material;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Configuration<T> {
     private final String name;
     private final String[] description;
     private Material icon;
-    private T value;
     private final Scenario scenario;
 
-    public Configuration(String name, T defaultValue, String icon, Scenario scenario, String... description) {
+    public Configuration(String name, String icon, Scenario scenario, String... description) {
         this.name = name;
-        this.value = defaultValue;
         this.icon = ItemUtils.getMaterial(icon);
         this.scenario = scenario;
         this.description = description;
@@ -39,7 +39,7 @@ public class Configuration<T> {
     }
 
     public T value() {
-        return value;
+        return (T) Plugin.getInstance().getScenarioConfig().get(scenario.getType()+"."+scenario.getConfigName()+"."+name);
     }
 
     public void setStringValue(String string) throws IllegalArgumentException {
@@ -68,11 +68,11 @@ public class Configuration<T> {
     }
 
     public T getValue() {
-        return value;
+        return (T) Plugin.getInstance().getScenarioConfig().get(scenario.getType()+"."+scenario.getConfigName()+"."+name);
     }
 
     public ValueType getValueType() {
-        Object checkValue = value;
+        Object checkValue = value();
 
         if (checkValue instanceof Integer)
             return ValueType.INTEGER;
@@ -86,14 +86,20 @@ public class Configuration<T> {
     }
 
     public boolean isArray() {
-        return value.getClass().isArray();
+        return value().getClass().isArray();
     }
 
     public void setValue(Object value) {
-        if (isArray())
-            this.value = (T) value;
-        else
-            this.value = ((T[]) value)[0];
+        try{
+            if (isArray())
+                Plugin.getInstance().getScenarioConfig().set(scenario.getType()+"."+scenario.getConfigName()+"."+name, (T) value);
+            else
+                Plugin.getInstance().getScenarioConfig().set(scenario.getType()+"."+scenario.getConfigName()+"."+name, ((T[]) value)[0]);
+            Plugin.getInstance().getScenarioConfig().save(Plugin.getInstance().scenarioFile);
+            Plugin.getInstance().createConfigs();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public Scenario getScenario() {

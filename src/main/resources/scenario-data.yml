@@ -1,0 +1,38 @@
+config-version: 1.2.2
+scenario:
+  apocalypse:
+    period: 10
+  player_swap:
+    interval: 300
+  random_give:
+    block_limit: 1
+    interval: 10
+    middle_multiplier: false
+  throw_tnt:
+    item: END_ROD
+    delay: 5
+    velocity: 12
+    kill_radius: 3
+    player_velocity: 3
+tool:
+  fill:
+    material: LAVA
+    delay: 60
+    amount: 2
+    current: 2
+    replace: false
+    upside: false
+  height_limit:
+    max: 126
+    min: 0
+    ignore_creative: true
+    allow_build: false
+    allow_break: false
+  playerride:
+    allowMany: false
+    allowLeave: true
+    onlyTeam: false
+    killOnLeave: false
+  random_team:
+    player_limit: 4
+    team_prefix: rt

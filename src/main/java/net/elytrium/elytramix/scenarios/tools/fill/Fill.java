@@ -3,6 +3,7 @@ package net.elytrium.elytramix.scenarios.tools.fill;
 import net.elytrium.elytramix.Plugin;
 import net.elytrium.elytramix.scenarios.Scenario;
 import net.elytrium.elytramix.scenarios.config.Configuration;
+import net.elytrium.elytramix.utils.ItemUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -19,12 +20,12 @@ public class Fill extends Scenario {
         addConfig(upside);
     }
 
-    private final Configuration<Material> material = new Configuration<>("material", Material.LAVA, "BOWL", this, "Чем заполнять");
-    private final Configuration<Integer> delay = new Configuration<>("delay", 60, "FEATHER", this, "Время между заполнениями", "(секунды)");
-    private final Configuration<Integer> amount = new Configuration<>("amount", 2, "COBBLESTONE_STAIRS", this, "Толщина блоков, заполняемых ", "за один раз");
-    private final Configuration<Integer> current = new Configuration<>("current", 2, "SIGN", this, "Текущая высота", "заполнения");
-    private final Configuration<Boolean> replace = new Configuration<>("replace", false, "IRON_SPADE", this, "Заменять блоки", "любого типа");
-    private final Configuration<Boolean> upside = new Configuration<>("upside", false, "SNOW_BALL", this, "Заполнение идёт сверху");
+    private final Configuration<String> material = new Configuration<>("material", "BOWL", this, "Чем заполнять");
+    private final Configuration<Integer> delay = new Configuration<>("delay", "FEATHER", this, "Время между заполнениями", "(секунды)");
+    private final Configuration<Integer> amount = new Configuration<>("amount", "COBBLESTONE_STAIRS", this, "Толщина блоков, заполняемых ", "за один раз");
+    private final Configuration<Integer> current = new Configuration<>("current","SIGN", this, "Текущая высота", "заполнения");
+    private final Configuration<Boolean> replace = new Configuration<>("replace","IRON_SPADE", this, "Заменять блоки", "любого типа");
+    private final Configuration<Boolean> upside = new Configuration<>("upside", "SNOW_BALL", this, "Заполнение идёт сверху");
     private BukkitRunnable task = null;
 
     @Override
@@ -75,7 +76,7 @@ public class Fill extends Scenario {
                     Block block = world.getBlockAt(x, current.value() + y, z);
                     if (!replace.value() && block.getType() != Material.AIR)
                         continue;
-                    block.setType(material.value(), false);
+                    block.setType(ItemUtils.getMaterial(material.value().toUpperCase()), false);
                 }
             }
         }

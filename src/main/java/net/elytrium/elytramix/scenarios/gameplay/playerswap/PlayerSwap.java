@@ -12,7 +12,7 @@ public class PlayerSwap extends Scenario {
         addConfig(interval);
     }
 
-    private final Configuration<Integer> interval = new Configuration<>("interval", 300, "WATCH", this, "Интервал телепортации в секундах");
+    private final Configuration<Integer> interval = new Configuration<>("interval", "WATCH", this, "Интервал телепортации в секундах");
 
     private BukkitRunnable runnable = new SwapRunnable();
 

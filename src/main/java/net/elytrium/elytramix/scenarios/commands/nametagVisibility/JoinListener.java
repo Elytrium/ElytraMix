@@ -1,20 +1,27 @@
 package net.elytrium.elytramix.scenarios.commands.nametagVisibility;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
-import static net.elytrium.elytramix.scenarios.commands.nametagVisibility.NametagVisibility.getNametagTeam;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JoinListener implements Listener {
-    @EventHandler()
-    public void onJoin(PlayerJoinEvent e){
-        getNametagTeam().addPlayer(e.getPlayer());
-    }
+    Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+    Team team = scoreboard.getTeam("em-nametag");
 
     @EventHandler
-    public void onLeave(PlayerQuitEvent e){
-        getNametagTeam().removePlayer(e.getPlayer());
+    public void onJoin(PlayerJoinEvent e){
+        Player p = e.getPlayer();
+
+        List<String> list = new ArrayList();
+
+        scoreboard.getTeams().stream().map(Team::getEntries).forEach(list::addAll);
+        list.stream().filter(q -> !list.contains(p.getName())).forEach(team::addEntry);
     }
 }

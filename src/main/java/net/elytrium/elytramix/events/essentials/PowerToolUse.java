@@ -1,4 +1,4 @@
-package net.elytrium.elytramix.events;
+package net.elytrium.elytramix.events.essentials;
 
 import net.elytrium.elytramix.Plugin;
 import net.elytrium.elytramix.utils.HitBoundingBox;
@@ -14,9 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class PowerToolUse implements Listener {
-    private final Plugin plugin;
-
-    public PowerToolUse(Plugin plugin){ this.plugin = plugin; }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void ToolInteract(PlayerInteractEvent event){
@@ -24,9 +21,9 @@ public class PowerToolUse implements Listener {
         ItemStack item = player.getItemInHand();
         String itemID = item.getType().name();
         String uuid = player.getUniqueId().toString();
-        String toolCommand = plugin.getPowertoolConfig().getString(uuid+"."+itemID);
+        String toolCommand = Plugin.getInstance().getPlayerConfig().getString(uuid+".powertools."+itemID);
 
-        if(plugin.getPowertoolConfig().contains(uuid) && plugin.getPowertoolConfig().contains(uuid+"."+itemID)){
+        if(Plugin.getInstance().getPlayerConfig().contains(uuid+".powertools."+itemID)){
             if(toolCommand.contains("{player}")){
                 Player target = findPlayerInSight(player);
 
@@ -51,9 +48,9 @@ public class PowerToolUse implements Listener {
             ItemStack item = damager.getItemInHand();
             String itemID = item.getType().name();
             String uuid = damager.getUniqueId().toString();
-            String toolCommand = plugin.getPowertoolConfig().getString(uuid+"."+itemID);
+            String toolCommand = Plugin.getInstance().getPlayerConfig().getString(uuid+".powertools."+itemID);
 
-            if(plugin.getPowertoolConfig().contains(uuid) && plugin.getPowertoolConfig().contains(uuid+"."+itemID)){
+            if(Plugin.getInstance().getPlayerConfig().contains(uuid) && Plugin.getInstance().getPlayerConfig().contains(uuid+".powertools."+itemID)){
                 if(toolCommand.contains("{player}")){
                     if(event.getEntity() instanceof Player){
                         Player target = findPlayerInSight(damager);

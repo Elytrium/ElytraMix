@@ -3,7 +3,6 @@ package net.elytrium.elytramix.scenarios.gameplay.randomgive;
 import net.elytrium.elytramix.Plugin;
 import net.elytrium.elytramix.scenarios.Scenario;
 import net.elytrium.elytramix.scenarios.config.Configuration;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -15,10 +14,9 @@ public class RandomGive extends Scenario {
         addConfig(middle_multiplier);
     }
 
-    private final Configuration<Integer> block_limit = new Configuration<>("block_limit", 1, "SKULL_ITEM", this, "Количество блоков за раз");
-    private final Configuration<Integer> interval = new Configuration<>("interval", 10, "WATCH", this, "Интервал выдачи блоков в секундах");
-    private final Configuration<Boolean> middle_multiplier = new Configuration<>("middle_multiplier", false, "COMPASS", this, "Выдавать ли больше блоков", "в центре зоны");
-    private final Configuration<Material[]> whitelist = new Configuration<>("whitelist", new Material[]{Material.AIR}, "BARRIER", this, "Белый список выдаваемых", "блоков");
+    private final Configuration<Integer> block_limit = new Configuration<>("block_limit", "SKULL_ITEM", this, "Количество блоков за раз");
+    private final Configuration<Integer> interval = new Configuration<>("interval", "WATCH", this, "Интервал выдачи блоков в секундах");
+    private final Configuration<Boolean> middle_multiplier = new Configuration<>("middle_multiplier", "COMPASS", this, "Выдавать ли больше блоков", "в центре зоны");
 
     private BukkitRunnable runnable = new GiveRunnable(this);
 

@@ -1,6 +1,7 @@
 name: ElytraMix
 version: ${project.version}
 authors: [7isenko, hevav, urFate] # Fork of ScenarioMix by 7isenko
+website: https://elytrium.net
 api-version: 1.15 # 1.16 breaks compatibility with 1.15; 1.15 allows to get 1.16 items in Material.values()
 main: net.elytrium.elytramix.Plugin
 depend:
@@ -73,6 +74,22 @@ commands:
     usage: /s <Игрок>
     permission: elytramix.tools
     aliases: [s]
+  speed:
+    description: Изменяет скорость движения
+    usage: /speed <число>
+    permission: elytramix.tools
+  spawn:
+    description: Телепортирует игрока на спавн
+    usage: /spawn
+    permission: elytramix.default
+  setspawn:
+    description: Устанавливает спавн в мире где вы находитесь
+    usage: /setspawn
+    permission: elytramix.tools
+  back:
+    description: Возвращает вас в последнюю известную точку
+    usage: /back
+    permission: elytramix.tools
 
 
 permissions:
@@ -85,6 +102,9 @@ permissions:
   elytramix.tools:
     default: op
     description: Использовать инструменты с плагина
+  elytramix.default:
+    default: true
+    description: Позволяет использовать стандартные команды
   elytramix.debug:
     default: op
     description: Показывать сообщения отладки
