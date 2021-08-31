@@ -21,5 +21,8 @@ jobs:
       with:
         java-version: '8'
         distribution: 'adopt'
+    - name: Download
+      run: wget -P ./lib/ https://cdn.getbukkit.org/spigot/spigot-1.16.5.jar
     - name: Build
       run: mvn -B package clean --file pom.xml
+    
