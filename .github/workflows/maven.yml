@@ -24,7 +24,7 @@ jobs:
     - name: Download NMS
       run: wget -P ./lib/ https://cdn.getbukkit.org/spigot/spigot-1.16.5.jar
     - name: Build
-      run: mvn -B package clean --file pom.xml
+      run: mvn package clean --file pom.xml
     - name: Upload build artifacts
       uses: actions/upload-artifact@v1
       with:
