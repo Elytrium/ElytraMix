@@ -4,6 +4,7 @@ scenario:
     period: 10
   player_swap:
     interval: 300
+    notifyTime: 10
   random_give:
     block_limit: 1
     interval: 10

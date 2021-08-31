@@ -13,15 +13,26 @@ public class PlayerSwap extends Scenario {
     }
 
     private final Configuration<Integer> interval = new Configuration<>("interval", "WATCH", this, "Интервал телепортации в секундах");
+    private final Configuration<Integer> notifyTime = new Configuration<>("notify_time", "SIGN", this, "Время в секундах, за которое игроки", "получат уведомление о свапе", "(-1 для отключения)");
 
     private BukkitRunnable runnable = new SwapRunnable();
+    private BukkitRunnable notifyRunnable = new SwapNotifyRunnable();
 
     public void start(Player player) {
-        runnable.runTaskTimer(Plugin.getInstance(), 0L, interval.getValue() * 20L);
+        long time = interval.getValue() * 20L;
+        runnable.runTaskTimer(Plugin.getInstance(), time, time);
+
+        if (notifyTime.getValue() != -1) {
+            long toNotify = notifyTime.getValue() * 20L;
+            notifyRunnable.runTaskTimer(Plugin.getInstance(), time - toNotify, time);
+        }
     }
 
     public void stop() {
         runnable.cancel();
         runnable = new SwapRunnable();
+
+        notifyRunnable.cancel();
+        notifyRunnable = new SwapNotifyRunnable();
     }
 }
