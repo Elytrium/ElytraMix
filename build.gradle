@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'net.elytrium.elytramix'
+version = '1.2.2'
+
+description = """ElytraMix"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+     maven { url "https://hub.spigotmc.org/nexus/content/groups/public/" }
+     maven { url "https://maven.enginehub.org/repo/" }
+     maven { url "https://repo.maven.apache.org/maven2" }
+     flatDir { dirs 'lib' }
+}
+dependencies {
+    compileOnly group: 'org.spigotmc', name: 'spigot-api', version:'1.16.5-R0.1-SNAPSHOT'
+    compileOnly group: 'com.sk89q.worldguard', name: 'worldguard-bukkit', version:'7.0.4'
+    implementation name: 'spigot-1.16.5'
+}

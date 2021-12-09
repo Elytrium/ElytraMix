@@ -1,4 +1,4 @@
-config-version: 1.2.2
+config-version: 1.2.3
 scenario:
   apocalypse:
     period: 10

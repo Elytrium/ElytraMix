@@ -113,3 +113,14 @@ target/
 /.idea/
 /lib/
 /lib/**
+/gradle/**
+/gradle
+/build
+/build/libs/ElytraMix-1.2.2.jar
+/build/tmp/jar/MANIFEST.MF
+/build/resources/main/messages.yml
+/build/resources/main/player-data.yml
+/build/resources/main/plugin.yml
+/build/resources/main/scenario-data.yml
+/build/resources/main/spawn.yml
+/gradle/

@@ -2,9 +2,6 @@ package net.elytrium.elytramix;
 
 import net.elytrium.elytramix.cui.ConfigurationTabCompleter;
 import net.elytrium.elytramix.cui.ScenarioMixCommand;
-import net.elytrium.elytramix.cui.essentials.*;
-import net.elytrium.elytramix.events.essentials.PositionListener;
-import net.elytrium.elytramix.events.essentials.PowerToolUse;
 import net.elytrium.elytramix.scenarios.ScenarioCategory;
 import net.elytrium.elytramix.scenarios.ScenarioManager;
 import net.elytrium.elytramix.scenarios.commands.build.Build;
@@ -36,7 +33,6 @@ import net.elytrium.elytramix.scenarios.tools.heightlimit.HeightLimit;
 import net.elytrium.elytramix.scenarios.tools.playerride.PlayerRide;
 import net.elytrium.elytramix.scenarios.tools.randomteam.RandomTeam;
 import net.elytrium.elytramix.utils.ItemUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -49,14 +45,8 @@ public class Plugin extends JavaPlugin {
     private static Plugin instance;
     private static final String command = "mix";
 
-    public File dataFile;
-    private FileConfiguration playerData;
-
     private File messagesFile;
     private FileConfiguration messagesData;
-
-    public File spawnFile;
-    private FileConfiguration spawnData;
 
     public File scenarioFile;
     private FileConfiguration scenarioData;
@@ -71,28 +61,6 @@ public class Plugin extends JavaPlugin {
         // Creating configuration files
         createConfigs();
         checkConfigurationVersion();
-
-        // Essentials commands
-        this.getCommand("bc").setExecutor(new Broadcast());
-        this.getCommand("day").setExecutor(new Day());
-        this.getCommand("fly").setExecutor(new Fly());
-        this.getCommand("gm").setExecutor(new Gamemode());
-        this.getCommand("heal").setExecutor(new Heal());
-        this.getCommand("kickall").setExecutor(new KickAll());
-        this.getCommand("mobkill").setExecutor(new MobKill());
-        this.getCommand("night").setExecutor(new Night());
-        this.getCommand("rain").setExecutor(new Rain());
-        this.getCommand("sun").setExecutor(new Sun());
-        this.getCommand("powertool").setExecutor(new PowerTool());
-        this.getCommand("tpall").setExecutor(new TeleportAll());
-        this.getCommand("tphere").setExecutor(new TeleportHere());
-        this.getCommand("spawn").setExecutor(new Spawn());
-        this.getCommand("setspawn").setExecutor(new Spawn());
-        this.getCommand("speed").setExecutor(new Speed());
-        this.getCommand("back").setExecutor(new Back());
-
-        Bukkit.getPluginManager().registerEvents(new PowerToolUse(), this);
-        Bukkit.getPluginManager().registerEvents(new PositionListener(), this);
     }
 
     @Override
@@ -146,40 +114,24 @@ public class Plugin extends JavaPlugin {
     }
 
     public void createConfigs() {
-        dataFile = new File(this.getDataFolder(), "player-data.yml");
         messagesFile = new File(this.getDataFolder(), "messages.yml");
-        spawnFile = new File(this.getDataFolder(), "spawn.yml");
         scenarioFile = new File(this.getDataFolder(), "scenario-data.yml");
 
-        if (!dataFile.exists()) {
-            dataFile.getParentFile().mkdirs();
-            this.saveResource("player-data.yml", false);
-        }
-
-        if(!spawnFile.exists()){
-            spawnFile.getParentFile().mkdirs();
-            this.saveResource("spawn.yml", false);
-        }
-
         if(!messagesFile.exists()){
-            dataFile.getParentFile().mkdirs();
+            messagesFile.getParentFile().mkdirs();
             this.saveResource("messages.yml", false);
         }
 
         if(!scenarioFile.exists()){
-            dataFile.getParentFile().mkdirs();
+            scenarioFile.getParentFile().mkdirs();
             this.saveResource("scenario-data.yml", false);
         }
 
-        playerData = new YamlConfiguration();
         messagesData = new YamlConfiguration();
-        spawnData = new YamlConfiguration();
         scenarioData = new YamlConfiguration();
 
         try {
-            playerData.load(dataFile);
             messagesData.load(messagesFile);
-            spawnData.load(spawnFile);
             scenarioData.load(scenarioFile);
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
@@ -218,18 +170,11 @@ public class Plugin extends JavaPlugin {
         getLogger().info("Config files check complete.");
     }
 
-    public FileConfiguration getPlayerConfig() {
-        return this.playerData;
-    }
 
     public FileConfiguration getMessagesConfig() {
         return this.messagesData;
     }
 
-    public FileConfiguration getSpawnConfig(){
-        return this.spawnData;
-    }
-    
     public  FileConfiguration getScenarioConfig() { return this.scenarioData; }
 
     public String getMessageString(String path) {
