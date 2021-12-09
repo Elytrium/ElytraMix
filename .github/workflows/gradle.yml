@@ -37,5 +37,5 @@ jobs:
         # Artifact name
         name: ElytraMix build
         # A file, directory or wildcard pattern that describes what to upload
-        path: /build/libs/
+        path: build/libs/*[0-9].jar
     
