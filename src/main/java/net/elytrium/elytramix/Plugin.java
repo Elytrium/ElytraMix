@@ -118,12 +118,10 @@ public class Plugin extends JavaPlugin {
         scenarioFile = new File(this.getDataFolder(), "scenario-data.yml");
 
         if(!messagesFile.exists()){
-            messagesFile.getParentFile().mkdirs();
             this.saveResource("messages.yml", false);
         }
 
         if(!scenarioFile.exists()){
-            scenarioFile.getParentFile().mkdirs();
             this.saveResource("scenario-data.yml", false);
         }
 
@@ -141,13 +139,11 @@ public class Plugin extends JavaPlugin {
     private void checkConfigurationVersion(){
         try{
             if(!messagesData.getString("config-version").equals(this.getDescription().getVersion())){
-                messagesFile.getParentFile().mkdirs();
                 this.saveResource("messages.yml", true);
                 
                 getLogger().warning("Legacy messages config detected! Messages config reset.");
             }
         } catch (NullPointerException e){
-            messagesFile.getParentFile().mkdirs();
             this.saveResource("messages.yml", true);
             
             getLogger().warning("Legacy messages config detected! Messages config reset.");
@@ -155,13 +151,11 @@ public class Plugin extends JavaPlugin {
 
         try{
             if(!scenarioData.getString("config-version").equals(this.getDescription().getVersion())){
-                scenarioFile.getParentFile().mkdirs();
                 this.saveResource("scenario-data.yml", true);
 
                 getLogger().warning("Legacy scenario config detected! Scenarios settings reset.");
             }
         } catch (NullPointerException e){
-            scenarioFile.getParentFile().mkdirs();
             this.saveResource("scenario-data.yml", true);
 
             getLogger().warning("Legacy scenario config detected! Scenarios settings reset.");
