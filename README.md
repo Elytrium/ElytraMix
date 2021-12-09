@@ -1,12 +1,11 @@
 # ElytraMix
 
+<p align="center">Плагин на сценарии для ивентов (fork плагина от 7isenko)<br></p>
+
 <p align="center">
     <img src="https://github.com/Elytrium/ElytraMix/actions/workflows/gradle.yml/badge.svg" alt="Build">
     <img src="https://img.shields.io/github/issues/Elytrium/ElytraMix" alt="Issues">
     <img src="https://img.shields.io/github/stars/Elytrium/ElytraMix" alt="Stars">
-</p>
-
-<p align="center">Spigot-плагин на сценарии для ивентов (fork плагина от 7isenko)<br>
 </p>
 
 ## Использование
@@ -57,25 +56,6 @@
 - **Флаг PvP** - /region flag
 - **Флаг Use**  - /region flag
 - **Флаг Fall-Damage**  - /region flag
-
-### Команды Essentials
-> *Набор популярных команд из плагина Essentials*
-- **Powertool** - Делает из предмета волшебную палочку
-- **Gamemode** - Переключает игровой режим
-- **Fly** - Включает режим полёта для игрока
-- **Heal** - Исцеляет игрока
-- **Broadcast** - Отправляет сообщение на весь сервер
-- **Kickall** - Кикает всех игроков
-- **Mobkill** - Убивает всех мобов в заданом радиусе
-- **Day** - Устанавливает дневное время суток
-- **Night** - Устанавливает ночное время суток
-- **Sun** - Устанавливает солнечную погоду
-- **Rain** - Устанавливает дождливую погоду
-- **TpAll** - Телепортирует всех игроков к вам
-- **TpHere** - Телепортирует игрока к вам
-- **Speed** - Изменяет скорость полёта/хотьбы
-- **Back** - Возвращает на предыдущую позицию пере смертью или телепортацией
-- **Spawn** - Телепортирует вас на спавн
 
 #### Лицензия
 [AGPL-3.0](https://github.com/Elytrium/ElytraMix/blob/master/LICENSE)
