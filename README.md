@@ -1,15 +1,13 @@
 # ElytraMix
 
-[![Build](https://github.com/Elytrium/ElytraMix/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/Elytrium/ElytraMix/actions/workflows/maven.yml)
-![Issuses](https://img.shields.io/github/issues/Elytrium/ElytraMix)
-![Stars](https://img.shields.io/github/stars/Elytrium/ElytraMix)
+<p align="center">
+    <img src="https://github.com/Elytrium/ElytraMix/actions/workflows/gradle.yml/badge.svg" alt="Build">
+    <img src="https://img.shields.io/github/issues/Elytrium/ElytraMix" alt="Issues">
+    <img src="https://img.shields.io/github/stars/Elytrium/ElytraMix" alt="Stars">
+</p>
 
-Версия: 1.2.2<br>
-Spigot-плагин на сценарии для ивентов (fork плагина от 7isenko)<br>
-Нативная версия: 1.16.4+<br>
-Для работы ElytraMix требуется наличие плагинов **WorldGuard** и **WorldEdit**!<br>
-**Версия 1.12.2 ныне не поддерживается!**<br>
-[[Скачать]](https://github.com/Elytrium/ElytraMix/releases/latest)
+<p align="center">Spigot-плагин на сценарии для ивентов (fork плагина от 7isenko)<br>
+</p>
 
 ## Использование
 
